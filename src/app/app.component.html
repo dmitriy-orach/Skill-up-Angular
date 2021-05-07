@@ -1,0 +1,7 @@
+<div class="container">
+    <div>
+        <button kendoButton (click)="adding = !adding">Добавить Пользователя</button>
+    </div>
+    <app-table *ngIf="!adding && !editing"></app-table>
+    <app-modal-window *ngIf="adding || editing"></app-modal-window>
+</div>

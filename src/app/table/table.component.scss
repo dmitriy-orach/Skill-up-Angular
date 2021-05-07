@@ -1,0 +1,32 @@
+.userInfo{
+    border-spacing: 0;
+    position: relative;
+
+    tr{
+        &:first-child{
+            position: relative;
+    
+            &::after{
+                content: '';
+                position: absolute;
+                height: 1px;
+                left: 0;
+                display: block;
+                width: 100%;
+                border-top: 1px solid #000;
+            }
+        }
+
+        td{
+            padding: 10px 15px;
+            margin: 0;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            text-align: center;
+    
+            &:first-child{
+                border-left: 1px solid #000;
+            }
+        }
+    }
+}

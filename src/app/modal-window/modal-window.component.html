@@ -1,0 +1,53 @@
+<div class="example-wrapper">
+    <kendo-window *ngIf="opened" (close)="close()" [minWidth]="250" [width]="450" >
+
+        <form [formGroup]="dataUserForm" class="k-form">
+            <fieldset>
+                <legend>User Details</legend>
+
+                <label class="k-form-field">
+                    <span>Имя пользователя</span>
+                    <input class="k-textbox" required placeholder="Имя" />
+                </label>
+                <label class="k-form-field">
+                    <p>Пол</p>
+                    <kendo-dropdownlist textField="text" valueField="value" [data]="genderRoles"></kendo-dropdownlist>
+                </label>
+                <label class="k-form-field">
+                    <span>Дата рождения</span>
+                    <kendo-datepicker
+                        [format]="format"
+                        [value]="valueDateOfBirth"
+                    >
+                    </kendo-datepicker>
+                </label>
+                <label class="k-form-field">
+                    <p>Направление обучения</p>
+                    <kendo-dropdownlist textField="text" valueField="value" [data]="directionsOfStudy"></kendo-dropdownlist>
+                </label>
+                <label class="k-form-field">
+                    <span>Дата начала обучения</span>
+                    <kendo-datepicker
+                        [format]="format"
+                        [value]="valueDateStartTraining"
+                    >
+                    </kendo-datepicker>
+                </label>
+                <label class="k-form-field">
+                    <span>Дата конца обучения</span>
+                    <kendo-datepicker
+                        [format]="format"
+                        [value]="valueDateFinishTraining"
+                    >
+                    </kendo-datepicker>
+                </label>
+            </fieldset>
+
+            <div class="btn-block">
+                <button type="button" class="k-button" (click)="close()">Отмена</button>
+                <button type="button" class="k-button k-primary" (click)="submit()">Отправить</button>
+            </div>
+        </form>
+
+    </kendo-window>
+</div>
