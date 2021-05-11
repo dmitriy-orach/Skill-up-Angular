@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FormatSettings } from '@progress/kendo-angular-dateinputs';
-
+import { userData } from '../app.component'
 interface listItem {
   text: string;
   value: string;
@@ -14,37 +14,20 @@ interface listItem {
 })
 export class ModalWindowComponent implements OnInit {
 
-  dataUserForm: FormGroup;
+  public dataUserForm: FormGroup;
 
-  constructor() {
-    this._createForm();
-  }
+  constructor() {}
 
-  private _createForm() {
-    this.dataUserForm = new FormGroup({
-
-    })
-  }
+  @Input() usersData: Array<userData>
 
   public opened = true;
   public dataSaved = false;
-  public close() {
-    this.opened = false;
-  }
-  public open() {
-    this.opened = true;
-  }
-  public submit() {
-      this.dataSaved = true;
-      // this.close();
-      console.log(this.dataSaved)
-  }
   public valueDateStartTraining: Date = new Date();
   public valueDateFinishTraining: Date = new Date();
   public valueDateOfBirth: Date = new Date();
   public format: FormatSettings = {
     displayFormat: 'dd/MM/yyyy',
-    inputFormat: 'dd/MM/yy'
+    inputFormat: 'dd/MM/yyyy'
   };
   public genderRoles: Array<listItem> = [
     { text:  'Male', value: "male"},
@@ -60,6 +43,92 @@ export class ModalWindowComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.createForm();
   }
 
+  private createForm(): void {
+    this.dataUserForm = new FormGroup({
+      name: new FormControl(
+        null, 
+        [
+          Validators.minLength(5),
+          Validators.maxLength(15),
+          Validators.required,
+        ]
+      ),
+      gender: new FormControl(
+        null,
+        [
+          Validators.required,
+        ]
+      ),
+      dateOfBirth : new FormControl(
+        null,
+        [
+          Validators.required,
+        ]
+      ),
+      directionOfStudy: new FormControl(
+        null,
+        [
+          Validators.required,
+        ]
+      ),
+      endDateOfTraining: new FormControl(
+        null,
+        [
+          Validators.required,
+        ]
+      ),
+      startDateOfTraining: new FormControl(
+        null,
+        [
+          Validators.required,
+        ]
+      )
+    });
+  }
+
+  submit() {
+    if (this.dataUserForm.invalid) {
+      this.dataUserForm.markAsTouched();
+      this.userNameControl.markAsTouched();
+      this.userGenderControl.markAsTouched();
+      this.userDateOfBirthControl.markAsTouched();
+      this.userDirectionOfStudyControl.markAsTouched();
+      this.userStartDateOfTrainingControl.markAsTouched();
+      this.userEndDateOfTrainingControl.markAsTouched();
+      return;
+    }
+    this.usersData.push(this.dataUserForm.value);
+    this.close();
+  }
+
+  close() {
+    this.opened = false;
+  }
+
+  get userNameControl(): AbstractControl {
+    return this.dataUserForm.get('name') as AbstractControl;
+  }
+
+  get userGenderControl(): AbstractControl {
+    return this.dataUserForm.get('gender') as AbstractControl;
+  }
+
+  get userDateOfBirthControl(): AbstractControl {
+    return this.dataUserForm.get('dateOfBirth') as AbstractControl;
+  }
+
+  get userDirectionOfStudyControl(): AbstractControl {
+    return this.dataUserForm.get('directionOfStudy') as AbstractControl;
+  }
+
+  get userStartDateOfTrainingControl(): AbstractControl {
+    return this.dataUserForm.get('startDateOfTraining') as AbstractControl;
+  }
+
+  get userEndDateOfTrainingControl(): AbstractControl {
+    return this.dataUserForm.get('endDateOfTraining') as AbstractControl;
+  }
 }

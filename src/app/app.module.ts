@@ -13,6 +13,7 @@ import { DateInputsModule } from '@progress/kendo-angular-dateinputs';
 import { LabelModule } from '@progress/kendo-angular-label';
 import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -33,7 +34,8 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
     LabelModule,
     DropDownsModule,
     HttpClientModule,
-    HttpClientJsonpModule
+    HttpClientJsonpModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

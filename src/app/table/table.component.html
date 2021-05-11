@@ -8,13 +8,13 @@
             <td>Дата начала обучения</td>
             <td>Дата конца обучения</td>
         </tr>
-        <tr>
-            <td>User</td>
-            <td>Male</td>
-            <td>07/05/2000</td>
-            <td>Quality Assurance</td>
-            <td>07/03/2021</td>
-            <td>07/05/2021</td>
+        <tr *ngFor="let usersData of usersData">
+            <td>{{usersData.name}}</td>
+            <td>{{usersData.gender.text}}</td>
+            <td>{{usersData.dateOfBirth | date:'yyyy/MM/dd'}}</td>
+            <td>{{usersData.directionOfStudy.text}}</td>
+            <td>{{usersData.startDateOfTraining | date:'yyyy/MM/dd'}}</td>
+            <td>{{usersData.endDateOfTraining | date:'yyyy/MM/dd'}}</td>
         </tr>
     </table>    
 </div>
