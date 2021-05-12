@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { FormatSettings } from '@progress/kendo-angular-dateinputs';
 import { userData } from '../app.component'
 interface listItem {
@@ -86,26 +86,8 @@ export class ModalWindowComponent implements OnInit {
           Validators.required,
         ]
       )
-    });
-  }
-
-  submit() {
-    if (this.dataUserForm.invalid) {
-      this.dataUserForm.markAsTouched();
-      this.userNameControl.markAsTouched();
-      this.userGenderControl.markAsTouched();
-      this.userDateOfBirthControl.markAsTouched();
-      this.userDirectionOfStudyControl.markAsTouched();
-      this.userStartDateOfTrainingControl.markAsTouched();
-      this.userEndDateOfTrainingControl.markAsTouched();
-      return;
-    }
-    this.usersData.push(this.dataUserForm.value);
-    this.close();
-  }
-
-  close() {
-    this.opened = false;
+    })
+    console.log(this.dataUserForm)
   }
 
   get userNameControl(): AbstractControl {
@@ -131,4 +113,48 @@ export class ModalWindowComponent implements OnInit {
   get userEndDateOfTrainingControl(): AbstractControl {
     return this.dataUserForm.get('endDateOfTraining') as AbstractControl;
   }
+
+  submit() {
+    // let chosenDateOfBirth = this.userDateOfBirthControl.value
+    // let chosenStartDateOfTraining = this.userStartDateOfTrainingControl.value
+    // let chosenEndDateOfTraining = this.userEndDateOfTrainingControl.value
+    
+    if (this.dataUserForm.invalid) {
+      this.dataUserForm.markAsTouched();
+      this.userNameControl.markAsTouched();
+      this.userGenderControl.markAsTouched();
+      this.userDateOfBirthControl.markAsTouched();
+      this.userDirectionOfStudyControl.markAsTouched();
+      this.userStartDateOfTrainingControl.markAsTouched();
+      this.userEndDateOfTrainingControl.markAsTouched();
+      return;
+    }
+
+    // if( (Date.parse(chosenDateOfBirth) >= Date.parse(chosenStartDateOfTraining)) || (Date.parse(chosenDateOfBirth) >= Date.parse(chosenEndDateOfTraining))){
+    //   this.userDateOfBirthControl.markAsTouched();
+    //   return;
+    // }
+
+    // if( Date.parse(chosenStartDateOfTraining) >= Date.parse(chosenEndDateOfTraining) ){
+    //   this.userDateOfBirthControl.markAsTouched();
+    //   return;
+    // }
+    
+    this.usersData.push(this.dataUserForm.value);
+    this.close();
+  }
+
+  close() {
+    this.opened = false;
+  }
+
+
+}
+
+function CalendarValidator(dateAfter: number | any): ValidatorFn {
+  return(control: AbstractControl): ValidationErrors  | null =>{
+    const firstDate = Date.parse(control.value);
+    const secondDate = Date.parse(dateAfter);
+    return (firstDate <= secondDate) ? {invalid: {value: control.value}} : null;
+  };
 }
