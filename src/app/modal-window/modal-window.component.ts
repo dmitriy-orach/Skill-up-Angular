@@ -1,8 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FormatSettings } from '@progress/kendo-angular-dateinputs';
-import { userData } from '../app.component'
-interface listItem {
+import { IUserData } from '../app.component';
+import { CustomValidator } from '../utils/utils';
+interface IListItem {
   text: string;
   value: string;
 }
@@ -18,22 +19,25 @@ export class ModalWindowComponent implements OnInit {
 
   constructor() {}
 
-  @Input() usersData: Array<userData>
+  @Input() usersData: Array<IUserData>;
 
   public opened = true;
   public dataSaved = false;
   public valueDateStartTraining: Date = new Date();
   public valueDateFinishTraining: Date = new Date();
   public valueDateOfBirth: Date = new Date();
+  
   public format: FormatSettings = {
     displayFormat: 'dd/MM/yyyy',
     inputFormat: 'dd/MM/yyyy'
   };
-  public genderRoles: Array<listItem> = [
+
+  public genderRoles: Array<IListItem> = [
     { text:  'Male', value: "male"},
     { text:  'Female', value: "female"}
-  ]
-  public directionsOfStudy: Array<listItem> = [
+  ];
+
+  public directionsOfStudy: Array<IListItem> = [
     { text:  'Backend', value: "backend"},
     { text:  'Frontend', value: "frontend"},
     { text:  'Design', value: "design"},
@@ -44,6 +48,7 @@ export class ModalWindowComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.setValidators();
   }
 
   private createForm(): void {
@@ -54,6 +59,7 @@ export class ModalWindowComponent implements OnInit {
           Validators.minLength(5),
           Validators.maxLength(15),
           Validators.required,
+          // CustomValidator.UnrepeatableNameValidatir()
         ]
       ),
       gender: new FormControl(
@@ -66,6 +72,7 @@ export class ModalWindowComponent implements OnInit {
         null,
         [
           Validators.required,
+          CustomValidator.CalendarValidator('startDateOfTraining')
         ]
       ),
       directionOfStudy: new FormControl(
@@ -84,10 +91,39 @@ export class ModalWindowComponent implements OnInit {
         null,
         [
           Validators.required,
+          CustomValidator.CalendarValidator('endDateOfTraining')
         ]
       )
     })
-    console.log(this.dataUserForm)
+  }
+
+  setValidators(): void {
+    this.userDateOfBirthControl.valueChanges.subscribe(() => {
+      this.userStartDateOfTrainingControl.updateValueAndValidity({emitEvent: false});
+      this.userEndDateOfTrainingControl.updateValueAndValidity({emitEvent: false});
+    })
+
+    this.userStartDateOfTrainingControl.valueChanges.subscribe(() => {
+      this.userDateOfBirthControl.updateValueAndValidity({emitEvent: false});
+      this.userEndDateOfTrainingControl.updateValueAndValidity({emitEvent: false});
+    })
+
+    this.userEndDateOfTrainingControl.valueChanges.subscribe(() => {
+      this.userStartDateOfTrainingControl.updateValueAndValidity({emitEvent: false});
+      this.userDateOfBirthControl.updateValueAndValidity({emitEvent: false});
+    })
+
+    const FRONTEND_DIRECTION = 'Frontend';
+    const BACKEND_DIRECTION = 'Backend';
+
+    this.userDirectionOfStudyControl.valueChanges.subscribe((value: {text: string}) => {
+      if(value.text == FRONTEND_DIRECTION || value.text == BACKEND_DIRECTION) {
+        this.userEndDateOfTrainingControl.clearValidators();
+      } else {
+        this.userEndDateOfTrainingControl.setValidators([Validators.required]);
+      }
+      this.userEndDateOfTrainingControl.updateValueAndValidity()
+    })
   }
 
   get userNameControl(): AbstractControl {
@@ -107,7 +143,7 @@ export class ModalWindowComponent implements OnInit {
   }
 
   get userStartDateOfTrainingControl(): AbstractControl {
-    return this.dataUserForm.get('startDateOfTraining') as AbstractControl;
+    return this.dataUserForm.get('startDateOfTraining') as AbstractControl; 
   }
 
   get userEndDateOfTrainingControl(): AbstractControl {
@@ -115,9 +151,6 @@ export class ModalWindowComponent implements OnInit {
   }
 
   submit() {
-    // let chosenDateOfBirth = this.userDateOfBirthControl.value
-    // let chosenStartDateOfTraining = this.userStartDateOfTrainingControl.value
-    // let chosenEndDateOfTraining = this.userEndDateOfTrainingControl.value
     
     if (this.dataUserForm.invalid) {
       this.dataUserForm.markAsTouched();
@@ -129,16 +162,6 @@ export class ModalWindowComponent implements OnInit {
       this.userEndDateOfTrainingControl.markAsTouched();
       return;
     }
-
-    // if( (Date.parse(chosenDateOfBirth) >= Date.parse(chosenStartDateOfTraining)) || (Date.parse(chosenDateOfBirth) >= Date.parse(chosenEndDateOfTraining))){
-    //   this.userDateOfBirthControl.markAsTouched();
-    //   return;
-    // }
-
-    // if( Date.parse(chosenStartDateOfTraining) >= Date.parse(chosenEndDateOfTraining) ){
-    //   this.userDateOfBirthControl.markAsTouched();
-    //   return;
-    // }
     
     this.usersData.push(this.dataUserForm.value);
     this.close();
@@ -147,14 +170,4 @@ export class ModalWindowComponent implements OnInit {
   close() {
     this.opened = false;
   }
-
-
-}
-
-function CalendarValidator(dateAfter: number | any): ValidatorFn {
-  return(control: AbstractControl): ValidationErrors  | null =>{
-    const firstDate = Date.parse(control.value);
-    const secondDate = Date.parse(dateAfter);
-    return (firstDate <= secondDate) ? {invalid: {value: control.value}} : null;
-  };
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { userData } from '../app.component'
+import { IUserData } from '../app.component'
 
 @Component({
   selector: 'app-table',
@@ -13,6 +13,6 @@ export class TableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @Input() usersData: Array<userData>
+  @Input() usersData: Array<IUserData>
 
 }

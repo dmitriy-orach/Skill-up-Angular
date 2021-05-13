@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-export interface userData {
+export interface IUserData {
   name: string,
   gender: {
     text: string
@@ -22,7 +22,7 @@ export class AppComponent {
   
   public adding = false
 
-  dataOfUsers: Array<userData> = [
+  dataOfUsers: Array<IUserData> = [
     {
       name: 'User',
       gender: {

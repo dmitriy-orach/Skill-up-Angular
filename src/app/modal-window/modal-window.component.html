@@ -29,6 +29,7 @@
                     <div class="err" *ngIf="userDateOfBirthControl.invalid && userDateOfBirthControl.touched">
                         Выберите дату рождения!
                     </div>
+                    <div class="err" *ngIf="userDateOfBirthControl.errors?.dateIsLessThanAcceptable">Дата рождения должна быть меньше даты начала курса!</div>
                 </label>
                 <label class="k-form-field">
                     <span ngClass="required">*</span><span>Направление обучения</span>
@@ -48,6 +49,7 @@
                     <div class="err" *ngIf="userStartDateOfTrainingControl.invalid && userStartDateOfTrainingControl.touched">
                         Выберите дату начала обучения!
                     </div>
+                    <div class="err" *ngIf="userStartDateOfTrainingControl.errors?.dateIsLessThanAcceptable">Дата начала курса должна быть меньше даты конца курса!</div>
                 </label>
                 <label class="k-form-field">
                     <span ngClass="required">*</span><span>Дата конца обучения</span>
@@ -62,7 +64,6 @@
                     </div>
                 </label>
             </fieldset>
-
             <div class="btn-block">
                 <button type="button" class="k-button" (click)="close()">Отмена</button>
                 <button type="button" class="k-button k-primary" [disabled]="!dataUserForm.valid" (click)="submit()">Отправить</button>
