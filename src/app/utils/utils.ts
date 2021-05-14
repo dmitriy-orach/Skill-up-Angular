@@ -1,7 +1,5 @@
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 
-
-
 export class CustomValidator {
 
     public static CalendarValidator(dateAfter: string): ValidatorFn {
@@ -20,9 +18,6 @@ export class CustomValidator {
     // public static UnrepeatableNameValidatir(): ValidatorFn {
     //     return(control: AbstractControl): ValidationErrors | any => {
     //         let users:  
-    //         users.forEach(user => {
-    //             return (user.name == control.value) ? {nameIsRepet: true} : null
-    //         });
     //     }
     // }
 }

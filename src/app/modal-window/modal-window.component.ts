@@ -1,12 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FormatSettings } from '@progress/kendo-angular-dateinputs';
-import { IUserData } from '../app.component';
+import { IUserData } from '../interfaces/interfaces';
 import { CustomValidator } from '../utils/utils';
-interface IListItem {
-  text: string;
-  value: string;
-}
+import { IListItem } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-modal-window',

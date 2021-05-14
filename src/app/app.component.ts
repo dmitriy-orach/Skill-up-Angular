@@ -1,17 +1,6 @@
 import { Component } from '@angular/core';
+import { IUserData } from './interfaces/interfaces';
 
-export interface IUserData {
-  name: string,
-  gender: {
-    text: string
-  },
-  dateOfBirth: string,
-  directionOfStudy: {
-    text: string
-  },
-  startDateOfTraining: string,
-  endDateOfTraining: string
-}
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

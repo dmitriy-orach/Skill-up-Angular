@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IUserData } from '../app.component'
+import { IUserData } from '../interfaces/interfaces'
 
 @Component({
   selector: 'app-table',
