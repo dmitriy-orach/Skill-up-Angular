@@ -4,6 +4,7 @@ import { FormatSettings } from '@progress/kendo-angular-dateinputs';
 import { IUserData } from '../interfaces/interfaces';
 import { CustomValidator } from '../utils/utils';
 import { IListItem } from '../interfaces/interfaces';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-modal-window',
@@ -56,7 +57,7 @@ export class ModalWindowComponent implements OnInit {
           Validators.minLength(5),
           Validators.maxLength(15),
           Validators.required,
-          // CustomValidator.UnrepeatableNameValidatir()
+          CustomValidator.UnrepeatableNameValidatir(this.usersData)
         ]
       ),
       gender: new FormControl(
@@ -150,7 +151,6 @@ export class ModalWindowComponent implements OnInit {
   submit() {
     
     if (this.dataUserForm.invalid) {
-      this.dataUserForm.markAsTouched();
       this.userNameControl.markAsTouched();
       this.userGenderControl.markAsTouched();
       this.userDateOfBirthControl.markAsTouched();
@@ -159,7 +159,11 @@ export class ModalWindowComponent implements OnInit {
       this.userEndDateOfTrainingControl.markAsTouched();
       return;
     }
-    
+
+    this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'dd/MM/yyyy')
+    this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'dd/MM/yyyy'),
+    this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'dd/MM/yyyy')
+
     this.usersData.push(this.dataUserForm.value);
     this.close();
   }

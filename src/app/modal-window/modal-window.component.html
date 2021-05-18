@@ -10,6 +10,7 @@
                     <div class="err" *ngIf="userNameControl.invalid && userNameControl.touched">
                         Введите имя от 5 до 15 букв!
                     </div>
+                    <div class="err" *ngIf="userNameControl.errors?.Repeated">Имя должно быть уникальным!</div>
                 </label>
                 <label class="k-form-field">
                     <span ngClass="required">*</span><span>Пол</span>

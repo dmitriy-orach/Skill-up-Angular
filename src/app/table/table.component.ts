@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IUserData } from '../interfaces/interfaces'
+import { IUserData } from '../interfaces/interfaces';
 
 @Component({
   selector: 'app-table',
@@ -14,5 +14,14 @@ export class TableComponent implements OnInit {
   }
 
   @Input() usersData: Array<IUserData>
+
+  // EditUserInfo(userData: object, index: number) {
+  //   console.log(userData);
+  //   console.log(index);
+  // }
+
+  // DeleteUserInfo(index: number) {
+  //   this.usersData.splice(index, 1)
+  // }
 
 }

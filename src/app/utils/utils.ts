@@ -1,4 +1,5 @@
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
+import { IUserData } from '../interfaces/interfaces';
 
 export class CustomValidator {
 
@@ -11,13 +12,14 @@ export class CustomValidator {
             } else {
                 return null;
             }
-            
         };
     }
 
-    // public static UnrepeatableNameValidatir(): ValidatorFn {
-    //     return(control: AbstractControl): ValidationErrors | any => {
-    //         let users:  
-    //     }
-    // }
+    public static UnrepeatableNameValidatir(users: Array<IUserData>): ValidatorFn {
+        return(control: AbstractControl): ValidationErrors | any => {
+            if(control.parent) {
+                return users.map(dataOfUser => dataOfUser.name).includes(control.value) ? {Repeated: true}: null;
+            }
+        }
+    }
 }
