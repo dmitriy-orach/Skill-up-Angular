@@ -16,6 +16,6 @@ export class AppComponent {
     this.adding = adding;
   }
 
-  @Input() dataOfUsers: Array<IUserData>
+  @Input() dataOfUsers: Array<IUserData>;
   @Input() adding;
 }

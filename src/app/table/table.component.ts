@@ -8,6 +8,6 @@ import { IUserData } from '../interfaces/interfaces';
 })
 export class TableComponent {
 
-  @Input() usersData: Array<IUserData>
+  @Input() usersData: Array<IUserData>;
 
 }
