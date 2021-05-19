@@ -15,8 +15,6 @@ export class ModalWindowComponent implements OnInit {
 
   public dataUserForm: FormGroup;
 
-  constructor() {}
-
   @Input() usersData: Array<IUserData>;
 
   public opened = true;
@@ -52,7 +50,7 @@ export class ModalWindowComponent implements OnInit {
   private createForm(): void {
     this.dataUserForm = new FormGroup({
       name: new FormControl(
-        null, 
+        "", 
         [
           Validators.minLength(5),
           Validators.maxLength(15),
@@ -67,7 +65,7 @@ export class ModalWindowComponent implements OnInit {
         ]
       ),
       dateOfBirth : new FormControl(
-        null,
+        "",
         [
           Validators.required,
           CustomValidator.CalendarValidator('startDateOfTraining')
@@ -80,13 +78,13 @@ export class ModalWindowComponent implements OnInit {
         ]
       ),
       endDateOfTraining: new FormControl(
-        null,
+        "",
         [
           Validators.required,
         ]
       ),
       startDateOfTraining: new FormControl(
-        null,
+        "",
         [
           Validators.required,
           CustomValidator.CalendarValidator('endDateOfTraining')
@@ -95,7 +93,7 @@ export class ModalWindowComponent implements OnInit {
     })
   }
 
-  setValidators(): void {
+  private setValidators(): void {
     this.userDateOfBirthControl.valueChanges.subscribe(() => {
       this.userStartDateOfTrainingControl.updateValueAndValidity({emitEvent: false});
       this.userEndDateOfTrainingControl.updateValueAndValidity({emitEvent: false});
@@ -148,7 +146,7 @@ export class ModalWindowComponent implements OnInit {
     return this.dataUserForm.get('endDateOfTraining') as AbstractControl;
   }
 
-  submit() {
+  public submit() {
     
     if (this.dataUserForm.invalid) {
       this.userNameControl.markAsTouched();
@@ -168,7 +166,7 @@ export class ModalWindowComponent implements OnInit {
     this.close();
   }
 
-  close() {
+  public close() {
     this.opened = false;
   }
 }
