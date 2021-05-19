@@ -146,7 +146,7 @@ export class ModalWindowComponent implements OnInit {
     return this.dataUserForm.get('endDateOfTraining') as AbstractControl;
   }
 
-  public submit() {
+  public submit(): void {
     
     if (this.dataUserForm.invalid) {
       this.userNameControl.markAsTouched();
@@ -166,7 +166,7 @@ export class ModalWindowComponent implements OnInit {
     this.close();
   }
 
-  public close() {
+  public close(): void {
     this.opened = false;
   }
 }
