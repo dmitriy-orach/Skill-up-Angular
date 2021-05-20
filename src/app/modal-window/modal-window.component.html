@@ -1,74 +1,71 @@
-<div class="example-wrapper">
-    <kendo-window *ngIf="opened" (close)="close()" [minWidth]="250" [width]="450" >
-
-        <form [formGroup]="dataUserForm" class="k-form">
-            <fieldset>
-                <legend>User Details</legend>
-                <label class="k-form-field">
-                    <span ngClass="required">*</span><span>Имя пользователя</span>
-                    <input class="k-textbox" #name formControlName="name" minlength="5" max="15" required placeholder="Имя" />
-                    <div class="err" *ngIf="userNameControl.invalid && userNameControl.touched">
-                        Введите имя от 5 до 15 букв!
-                    </div>
-                    <div class="err" *ngIf="userNameControl.errors?.Repeated">Имя должно быть уникальным!</div>
-                </label>
-                <label class="k-form-field">
-                    <span ngClass="required">*</span><span>Пол</span>
-                    <kendo-dropdownlist textField="text" formControlName="gender" valueField="value" [data]="genderRoles"></kendo-dropdownlist>
-                    <div class="err" *ngIf="userGenderControl.invalid && userGenderControl.touched">
-                        Виберите пол!
-                    </div>
-                </label>
-                <label class="k-form-field">
-                    <span ngClass="required">*</span><span>Дата рождения</span>
-                    <kendo-datepicker
-                        formControlName="dateOfBirth"
-                        [format]="format"
-                        [value]="valueDateOfBirth"
-                    >
-                    </kendo-datepicker>
-                    <div class="err" *ngIf="userDateOfBirthControl.invalid && userDateOfBirthControl.touched">
-                        Выберите дату рождения!
-                    </div>
-                    <div class="err" *ngIf="userDateOfBirthControl.errors?.dateIsLessThanAcceptable">Дата рождения должна быть меньше даты начала курса!</div>
-                </label>
-                <label class="k-form-field">
-                    <span ngClass="required">*</span><span>Направление обучения</span>
-                    <kendo-dropdownlist textField="text" formControlName="directionOfStudy" valueField="value" [data]="directionsOfStudy"></kendo-dropdownlist>
-                    <div class="err" *ngIf="userDirectionOfStudyControl.invalid && userDirectionOfStudyControl.touched">
-                        Выберите направление обучения!
-                    </div>
-                </label>
-                <label class="k-form-field">
-                    <span ngClass="required">*</span><span>Дата начала обучения</span>
-                    <kendo-datepicker
-                        formControlName="startDateOfTraining"
-                        [format]="format"
-                        [value]="valueDateStartTraining"
-                    >
-                    </kendo-datepicker>
-                    <div class="err" *ngIf="userStartDateOfTrainingControl.invalid && userStartDateOfTrainingControl.touched">
-                        Выберите дату начала обучения!
-                    </div>
-                    <div class="err" *ngIf="userStartDateOfTrainingControl.errors?.dateIsLessThanAcceptable">Дата начала курса должна быть меньше даты конца курса!</div>
-                </label>
-                <label class="k-form-field">
-                    <span ngClass="required">*</span><span>Дата конца обучения</span>
-                    <kendo-datepicker
-                        formControlName="endDateOfTraining"
-                        [format]="format"
-                        [value]="valueDateFinishTraining"
-                    >
-                    </kendo-datepicker>
-                    <div class="err" *ngIf="userEndDateOfTrainingControl.invalid && userEndDateOfTrainingControl.touched">
-                        Выберите дату конца обучения!
-                    </div>
-                </label>
-            </fieldset>
-            <div class="btn-block">
-                <button type="button" class="k-button" (click)="close()">Отмена</button>
-                <button type="button" class="k-button k-primary" [disabled]="!dataUserForm.valid" (click)="submit()">Отправить</button>
-            </div>
-        </form>
-    </kendo-window>
-</div>
+<kendo-window *ngIf="adding" (close)="close()" [minWidth]="250" [width]="450" >
+    <form [formGroup]="dataUserForm" class="k-form">
+        <fieldset>
+            <legend>User Details</legend>
+            <label class="k-form-field">
+                <span ngClass="required">*</span><span>Имя пользователя</span>
+                <input class="k-textbox" #name formControlName="name" minlength="5" max="15" required placeholder="Имя" />
+                <div class="err" *ngIf="userNameControl.invalid && userNameControl.touched">
+                    Введите имя от 5 до 15 букв!
+                </div>
+                <div class="err" *ngIf="userNameControl.errors?.Repeated">Имя должно быть уникальным!</div>
+            </label>
+            <label class="k-form-field">
+                <span ngClass="required">*</span><span>Пол</span>
+                <kendo-dropdownlist textField="text" formControlName="gender" valueField="value" [data]="genderRoles"></kendo-dropdownlist>
+                <div class="err" *ngIf="userGenderControl.invalid && userGenderControl.touched">
+                    Виберите пол!
+                </div>
+            </label>
+            <label class="k-form-field">
+                <span ngClass="required">*</span><span>Дата рождения</span>
+                <kendo-datepicker
+                    formControlName="dateOfBirth"
+                    [format]="format"
+                    [value]="valueDateOfBirth"
+                >
+                </kendo-datepicker>
+                <div class="err" *ngIf="userDateOfBirthControl.invalid && userDateOfBirthControl.touched">
+                    Выберите дату рождения!
+                </div>
+                <div class="err" *ngIf="userDateOfBirthControl.errors?.dateIsLessThanAcceptable">Дата рождения должна быть меньше даты начала курса!</div>
+            </label>
+            <label class="k-form-field">
+                <span ngClass="required">*</span><span>Направление обучения</span>
+                <kendo-dropdownlist textField="text" formControlName="directionOfStudy" valueField="value" [data]="directionsOfStudy"></kendo-dropdownlist>
+                <div class="err" *ngIf="userDirectionOfStudyControl.invalid && userDirectionOfStudyControl.touched">
+                    Выберите направление обучения!
+                </div>
+            </label>
+            <label class="k-form-field">
+                <span ngClass="required">*</span><span>Дата начала обучения</span>
+                <kendo-datepicker
+                    formControlName="startDateOfTraining"
+                    [format]="format"
+                    [value]="valueDateStartTraining"
+                >
+                </kendo-datepicker>
+                <div class="err" *ngIf="userStartDateOfTrainingControl.invalid && userStartDateOfTrainingControl.touched">
+                    Выберите дату начала обучения!
+                </div>
+                <div class="err" *ngIf="userStartDateOfTrainingControl.errors?.dateIsLessThanAcceptable">Дата начала курса должна быть меньше даты конца курса!</div>
+            </label>
+            <label class="k-form-field">
+                <span ngClass="required">*</span><span>Дата конца обучения</span>
+                <kendo-datepicker
+                    formControlName="endDateOfTraining"
+                    [format]="format"
+                    [value]="valueDateFinishTraining"
+                >
+                </kendo-datepicker>
+                <div class="err" *ngIf="userEndDateOfTrainingControl.invalid && userEndDateOfTrainingControl.touched">
+                    Выберите дату конца обучения!
+                </div>
+            </label>
+        </fieldset>
+        <div class="btn-block">
+            <button type="button" class="k-button" (click)="close()">Отмена</button>
+            <button type="button" class="k-button k-primary" [disabled]="!dataUserForm.valid" (click)="submit()">Отправить</button>
+        </div>
+    </form>
+</kendo-window>

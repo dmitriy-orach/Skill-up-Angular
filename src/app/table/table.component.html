@@ -1,5 +1,5 @@
 <div>
-    <kendo-grid [data]="usersData" [height]="410">
+    <kendo-grid [data]="usersData" (edit)="editHandler($event)" (remove)="removeHandler($event)" [height]="410">
         <kendo-grid-column field="name" title="Имя пользователя">
         </kendo-grid-column>
         <kendo-grid-column field="gender.text" title="Пол">
@@ -12,5 +12,11 @@
         </kendo-grid-column>
         <kendo-grid-column field="endDateOfTraining" title="Дата конца обучения">
         </kendo-grid-column>
-    </kendo-grid>    
+        <kendo-grid-command-column field="id" title="Редактирование\Удаление">
+            <ng-template kendoGridCellTemplate>
+                <button kendoGridEditCommand [primary]="true">Edit</button>
+                <button kendoGridRemoveCommand>Delete</button>
+            </ng-template>
+        </kendo-grid-command-column>
+    </kendo-grid>
 </div>

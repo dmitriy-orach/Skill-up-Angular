@@ -15,7 +15,7 @@ import { DropDownsModule } from '@progress/kendo-angular-dropdowns';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { GridModule } from "@progress/kendo-angular-grid";
-
+import { DialogModule } from "@progress/kendo-angular-dialog";
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { GridModule } from "@progress/kendo-angular-grid";
     HttpClientJsonpModule,
     ReactiveFormsModule,
     FormsModule,
-    GridModule
+    GridModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

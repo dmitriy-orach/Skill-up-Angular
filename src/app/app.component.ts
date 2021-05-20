@@ -11,11 +11,17 @@ import { adding } from './variables/variables'
 export class AppComponent {
   title = 'Skill-up-Angular';
 
+  // public adding = adding;
+
   constructor() {
     this.dataOfUsers = dataOfUsers;
-    this.adding = adding;
   }
 
-  @Input() dataOfUsers: Array<IUserData>
-  @Input() adding;
+  @Input() dataOfUsers: Array<IUserData>;
+  @Input() adding: boolean;
+
+  handleClick() {
+    this.adding = !this.adding;
+    console.log(this.adding);
+  }
 }

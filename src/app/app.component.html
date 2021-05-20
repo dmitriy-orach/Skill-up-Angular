@@ -1,7 +1,7 @@
 <div class="container">
     <div ngClass="btn-block">
-        <button kendoButton (click)="adding = !adding">Добавить Пользователя</button>
+        <button kendoButton (click)="handleClick()">Добавить Пользователя</button>
     </div>
-    <app-table [usersData]="dataOfUsers"></app-table>
-    <app-modal-window [usersData]="dataOfUsers" *ngIf="adding"></app-modal-window>
+    <app-table [adding]="adding" [usersData]="dataOfUsers"></app-table>
+    <app-modal-window [usersData]="dataOfUsers" [adding]="adding"></app-modal-window>
 </div>

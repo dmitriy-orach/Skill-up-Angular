@@ -4,6 +4,7 @@ export interface IListItem {
 }
 
 export interface IUserData {
+    id: number,
     name: string,
     gender: {
         text: string

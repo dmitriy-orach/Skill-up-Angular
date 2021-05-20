@@ -15,10 +15,11 @@ export class ModalWindowComponent implements OnInit {
 
   public dataUserForm: FormGroup;
 
+  @Input() adding :boolean
+
   @Input() usersData: Array<IUserData>;
 
   public opened = true;
-  public dataSaved = false;
   public valueDateStartTraining: Date = new Date();
   public valueDateFinishTraining: Date = new Date();
   public valueDateOfBirth: Date = new Date();
@@ -118,7 +119,7 @@ export class ModalWindowComponent implements OnInit {
       } else {
         this.userEndDateOfTrainingControl.setValidators([Validators.required]);
       }
-      this.userEndDateOfTrainingControl.updateValueAndValidity()
+      this.userEndDateOfTrainingControl.updateValueAndValidity();
     })
   }
 
@@ -158,15 +159,16 @@ export class ModalWindowComponent implements OnInit {
       return;
     }
 
-    this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'dd/MM/yyyy')
-    this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'dd/MM/yyyy'),
-    this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'dd/MM/yyyy')
+    this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'dd/MM/yyyy');
+    this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'dd/MM/yyyy');
+    this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'dd/MM/yyyy');
 
     this.usersData.push(this.dataUserForm.value);
     this.close();
   }
 
   public close(): void {
-    this.opened = false;
+    this.adding = !this.adding;
+    console.log(this.adding)
   }
 }
