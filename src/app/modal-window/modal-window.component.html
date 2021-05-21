@@ -1,3 +1,7 @@
+<div ngClass="btn-block">
+    <button kendoButton (click)="handleClick()">Добавить Пользователя</button>
+</div>
+<br>
 <kendo-window *ngIf="adding" (close)="close()" [minWidth]="250" [width]="450" >
     <form [formGroup]="dataUserForm" class="k-form">
         <fieldset>

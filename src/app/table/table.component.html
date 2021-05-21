@@ -14,7 +14,7 @@
         </kendo-grid-column>
         <kendo-grid-command-column field="id" title="Редактирование\Удаление">
             <ng-template kendoGridCellTemplate>
-                <button kendoGridEditCommand [primary]="true">Edit</button>
+                <button kendoGridEditCommand (click)="adding = !adding" [primary]="true">Edit</button>
                 <button kendoGridRemoveCommand>Delete</button>
             </ng-template>
         </kendo-grid-command-column>

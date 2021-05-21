@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FormatSettings } from '@progress/kendo-angular-dateinputs';
 import { IUserData } from '../interfaces/interfaces';
 import { CustomValidator } from '../utils/utils';
 import { IListItem } from '../interfaces/interfaces';
 import { DatePipe } from '@angular/common';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-modal-window',
@@ -13,13 +14,11 @@ import { DatePipe } from '@angular/common';
 })
 export class ModalWindowComponent implements OnInit {
 
+  constructor(private dataService: DataService){}
+
   public dataUserForm: FormGroup;
-
-  @Input() adding :boolean
-
-  @Input() usersData: Array<IUserData>;
-
-  public opened = true;
+  public adding: boolean;
+  public usersData: Array<IUserData>;
   public valueDateStartTraining: Date = new Date();
   public valueDateFinishTraining: Date = new Date();
   public valueDateOfBirth: Date = new Date();
@@ -44,6 +43,8 @@ export class ModalWindowComponent implements OnInit {
   ];
 
   ngOnInit(): void {
+    this.usersData = this.dataService.getDataOfUsers();
+    this.adding = this.dataService.getAdding();
     this.createForm();
     this.setValidators();
   }
@@ -168,7 +169,14 @@ export class ModalWindowComponent implements OnInit {
   }
 
   public close(): void {
-    this.adding = !this.adding;
-    console.log(this.adding)
+    this.dataService.setAdding();
+    this.adding = this.dataService.getAdding()
+    console.log(this.dataService.getAdding());
+  }
+
+  public handleClick() {
+    this.dataService.setAdding()
+    this.adding = this.dataService.getAdding()
+    console.log(this.dataService.getAdding())
   }
 }

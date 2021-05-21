@@ -16,6 +16,7 @@ import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { GridModule } from "@progress/kendo-angular-grid";
 import { DialogModule } from "@progress/kendo-angular-dialog";
+import { DataService } from './services/data.service';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { DialogModule } from "@progress/kendo-angular-dialog";
     GridModule,
     DialogModule
   ],
-  providers: [],
+  providers: [DataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

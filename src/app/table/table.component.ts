@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { IUserData } from '../interfaces/interfaces';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-table',
@@ -8,8 +9,15 @@ import { IUserData } from '../interfaces/interfaces';
 })
 export class TableComponent {
 
-  @Input() usersData: Array<IUserData>;
-  @Input() adding: boolean;
+  constructor(private dataService: DataService){}
+  
+  public adding: boolean
+  public usersData: Array<IUserData>;
+
+  ngOnInit(): void {
+    this.adding = this.dataService.getAdding();
+    this.usersData = this.dataService.getDataOfUsers();
+  }
 
   public removeHandler({dataItem}: any) {
     const user_index = this.usersData.findIndex((user) => {
@@ -19,8 +27,9 @@ export class TableComponent {
   }
 
   public editHandler({dataItem}: any) {
-    this.adding = true;
-    console.log(this.adding);
+    this.dataService.setAdding();
+    this.adding = this.dataService.getAdding(); 
+    console.log(this.dataService.getAdding());
     console.log(dataItem);
   }
 }
