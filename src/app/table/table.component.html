@@ -5,12 +5,15 @@
         <kendo-grid-column field="gender.text" title="Пол">
         </kendo-grid-column>
         <kendo-grid-column field="dateOfBirth" title="Дата рождения">
+            <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.dateOfBirth | date:'dd/MM/yyyy'}}</ng-template>
         </kendo-grid-column>
         <kendo-grid-column field="directionOfStudy.text" title="Направление обучения">
         </kendo-grid-column>
         <kendo-grid-column field="startDateOfTraining" title="Дата начала обучения">
+            <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.startDateOfTraining | date:'dd/MM/yyyy'}}</ng-template>
         </kendo-grid-column>
         <kendo-grid-column field="endDateOfTraining" title="Дата конца обучения">
+            <ng-template kendoGridCellTemplate let-dataItem>{{dataItem.endDateOfTraining | date:'dd/MM/yyyy'}}</ng-template>
         </kendo-grid-column>
         <kendo-grid-command-column field="id" title="Редактирование\Удаление">
             <ng-template kendoGridCellTemplate>

@@ -15,10 +15,10 @@ export class CustomValidator {
         };
     }
 
-    public static UnrepeatableNameValidatir(users: Array<IUserData>): ValidatorFn {
+    public static UnrepeatableNameValidatir(names: Array<string>): ValidatorFn {
         return(control: AbstractControl): ValidationErrors | any => {
             if(control.parent) {
-                return users.map(dataOfUser => dataOfUser.name).includes(control.value) ? {Repeated: true}: null;
+                return names.includes(control.value) ? {Repeated: true}: null;
             }
         }
     }

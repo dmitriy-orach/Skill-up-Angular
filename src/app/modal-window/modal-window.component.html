@@ -22,7 +22,6 @@
                 <kendo-datepicker
                     formControlName="dateOfBirth"
                     [format]="format"
-                    [value]="valueDateOfBirth"
                 >
                 </kendo-datepicker>
                 <div class="err" *ngIf="userDateOfBirthControl.invalid && userDateOfBirthControl.touched">
@@ -42,7 +41,6 @@
                 <kendo-datepicker
                     formControlName="startDateOfTraining"
                     [format]="format"
-                    [value]="valueDateStartTraining"
                 >
                 </kendo-datepicker>
                 <div class="err" *ngIf="userStartDateOfTrainingControl.invalid && userStartDateOfTrainingControl.touched">
@@ -55,7 +53,6 @@
                 <kendo-datepicker
                     formControlName="endDateOfTraining"
                     [format]="format"
-                    [value]="valueDateFinishTraining"
                 >
                 </kendo-datepicker>
                 <div class="err" *ngIf="userEndDateOfTrainingControl.invalid && userEndDateOfTrainingControl.touched">

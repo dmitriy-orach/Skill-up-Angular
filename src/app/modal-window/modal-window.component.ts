@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FormatSettings } from '@progress/kendo-angular-dateinputs';
-import { IUserData } from '../interfaces/interfaces';
 import { CustomValidator } from '../utils/utils';
 import { IListItem } from '../interfaces/interfaces';
 import { DatePipe } from '@angular/common';
@@ -22,10 +21,6 @@ export class ModalWindowComponent implements OnInit {
   @Output() cancel: EventEmitter<any> = new EventEmitter();
   
   public dataUserForm: FormGroup;
-  public usersData: Array<IUserData>;
-  public valueDateStartTraining: Date = new Date();
-  public valueDateFinishTraining: Date = new Date();
-  public valueDateOfBirth: Date = new Date();
   
   public format: FormatSettings = {
     displayFormat: 'dd/MM/yyyy',
@@ -47,7 +42,6 @@ export class ModalWindowComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.usersData = this.dataService.getDataOfUsers();
     this.createForm();
     this.setValidators();
 
@@ -66,9 +60,9 @@ export class ModalWindowComponent implements OnInit {
         'directionOfStudy': this.editUser.directionOfStudy,
         'endDateOfTraining': new Date(this.editUser.endDateOfTraining),
         'startDateOfTraining': new Date(this.editUser.startDateOfTraining),
+        
       });
-    } else {
-      
+      console.log(this.dataUserForm.value)
     }
   }
 
@@ -80,7 +74,7 @@ export class ModalWindowComponent implements OnInit {
           Validators.minLength(5),
           Validators.maxLength(15),
           Validators.required,
-          CustomValidator.UnrepeatableNameValidatir(this.usersData)
+          CustomValidator.UnrepeatableNameValidatir(this.dataService.getNames())
         ]
       ),
       gender: new FormControl(
@@ -174,18 +168,11 @@ export class ModalWindowComponent implements OnInit {
   public submit(): void {
 
     if(this.isEdit) {
-      this.usersData.map((user: any) => {
-        if(user.id === this.editUser.id) {
-          this.usersData[this.editUser.id - 1] = this.dataUserForm.value;
-        }
-      })
 
-      // console.log(this.usersData.length);
-
-      this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'dd/MM/yyyy');
-      this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'dd/MM/yyyy');
-      this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'dd/MM/yyyy');
-
+      this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'yyyy/MM/dd');
+      this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'yyyy/MM/dd');
+      this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'yyyy/MM/dd');
+      this.dataService.editUser(this.editUser.id, this.dataUserForm.value);
       this.onCancel();
       
     } else {
@@ -199,12 +186,12 @@ export class ModalWindowComponent implements OnInit {
         return;
       }
   
-      this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'dd/MM/yyyy');
-      this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'dd/MM/yyyy');
-      this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'dd/MM/yyyy');
+      this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'yyyy/MM/dd');
+      this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'yyyy/MM/dd');
+      this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'yyyy/MM/dd');
   
-      this.dataUserForm.value.id = this.usersData.length + 1
-      this.usersData.push(this.dataUserForm.value);
+      console.log(this.dataUserForm.value)
+      this.dataService.addUser(this.dataUserForm.value);
       this.onCancel();
     }
   }
