@@ -1,8 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { IUserData } from '../interfaces/interfaces';
 
-@Injectable({ providedIn: 'root' })
 export class DataService{
     
     public dataOfUsers: Array<IUserData> = [
@@ -46,16 +43,6 @@ export class DataService{
             endDateOfTraining: '07/05/2021'
         },
     ];
-
-    public adding = false;
-
-    getAdding() {
-        return this.adding;
-    }
-
-    setAdding() {
-        return this.adding = !this.adding;
-    }
 
     getDataOfUsers() {
         return this.dataOfUsers;

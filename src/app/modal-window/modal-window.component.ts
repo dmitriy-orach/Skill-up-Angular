@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { FormatSettings } from '@progress/kendo-angular-dateinputs';
 import { IUserData } from '../interfaces/interfaces';
@@ -15,9 +15,13 @@ import { DataService } from '../services/data.service';
 export class ModalWindowComponent implements OnInit {
 
   constructor(private dataService: DataService){}
+  @Input() adding: boolean;
+  @Input() isEdit: boolean;
+  @Input() editUser: any;
 
+  @Output() cancel: EventEmitter<any> = new EventEmitter();
+  
   public dataUserForm: FormGroup;
-  public adding: boolean;
   public usersData: Array<IUserData>;
   public valueDateStartTraining: Date = new Date();
   public valueDateFinishTraining: Date = new Date();
@@ -44,9 +48,28 @@ export class ModalWindowComponent implements OnInit {
 
   ngOnInit(): void {
     this.usersData = this.dataService.getDataOfUsers();
-    this.adding = this.dataService.getAdding();
     this.createForm();
     this.setValidators();
+
+    if(this.isEdit) {
+
+      this.userNameControl.setValidators([
+        Validators.minLength(5),
+        Validators.maxLength(15),
+        Validators.required,
+      ]);
+
+      this.dataUserForm.patchValue({
+        'name': this.editUser.name,
+        'gender': this.editUser.gender,
+        'dateOfBirth': new Date(this.editUser.dateOfBirth) ,
+        'directionOfStudy': this.editUser.directionOfStudy,
+        'endDateOfTraining': new Date(this.editUser.endDateOfTraining),
+        'startDateOfTraining': new Date(this.editUser.startDateOfTraining),
+      });
+    } else {
+      
+    }
   }
 
   private createForm(): void {
@@ -149,34 +172,45 @@ export class ModalWindowComponent implements OnInit {
   }
 
   public submit(): void {
-    
-    if (this.dataUserForm.invalid) {
-      this.userNameControl.markAsTouched();
-      this.userGenderControl.markAsTouched();
-      this.userDateOfBirthControl.markAsTouched();
-      this.userDirectionOfStudyControl.markAsTouched();
-      this.userStartDateOfTrainingControl.markAsTouched();
-      this.userEndDateOfTrainingControl.markAsTouched();
-      return;
+
+    if(this.isEdit) {
+      this.usersData.map((user: any) => {
+        if(user.id === this.editUser.id) {
+          this.usersData[this.editUser.id - 1] = this.dataUserForm.value;
+        }
+      })
+
+      // console.log(this.usersData.length);
+
+      this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'dd/MM/yyyy');
+      this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'dd/MM/yyyy');
+      this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'dd/MM/yyyy');
+
+      this.onCancel();
+      
+    } else {
+      if (this.dataUserForm.invalid) {
+        this.userNameControl.markAsTouched();
+        this.userGenderControl.markAsTouched();
+        this.userDateOfBirthControl.markAsTouched();
+        this.userDirectionOfStudyControl.markAsTouched();
+        this.userStartDateOfTrainingControl.markAsTouched();
+        this.userEndDateOfTrainingControl.markAsTouched();
+        return;
+      }
+  
+      this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'dd/MM/yyyy');
+      this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'dd/MM/yyyy');
+      this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'dd/MM/yyyy');
+  
+      this.dataUserForm.value.id = this.usersData.length + 1
+      this.usersData.push(this.dataUserForm.value);
+      this.onCancel();
     }
-
-    this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'dd/MM/yyyy');
-    this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'dd/MM/yyyy');
-    this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'dd/MM/yyyy');
-
-    this.usersData.push(this.dataUserForm.value);
-    this.close();
   }
 
-  public close(): void {
-    this.dataService.setAdding();
-    this.adding = this.dataService.getAdding()
-    console.log(this.dataService.getAdding());
+  public onCancel(): void {
+    this.cancel.emit();
   }
 
-  public handleClick() {
-    this.dataService.setAdding()
-    this.adding = this.dataService.getAdding()
-    console.log(this.dataService.getAdding())
-  }
 }

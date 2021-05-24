@@ -1,8 +1,4 @@
-<div ngClass="btn-block">
-    <button kendoButton (click)="handleClick()">Добавить Пользователя</button>
-</div>
-<br>
-<kendo-window *ngIf="adding" (close)="close()" [minWidth]="250" [width]="450" >
+<kendo-window (close)="onCancel()" [minWidth]="250" [width]="450" >
     <form [formGroup]="dataUserForm" class="k-form">
         <fieldset>
             <legend>User Details</legend>
@@ -68,7 +64,7 @@
             </label>
         </fieldset>
         <div class="btn-block">
-            <button type="button" class="k-button" (click)="close()">Отмена</button>
+            <button class="k-button" (click)="onCancel()">Отмена</button>
             <button type="button" class="k-button k-primary" [disabled]="!dataUserForm.valid" (click)="submit()">Отправить</button>
         </div>
     </form>

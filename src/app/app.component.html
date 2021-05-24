@@ -1,6 +1,9 @@
 <div class="container">
-    
-    <app-modal-window ></app-modal-window>
-    <app-table></app-table>
+    <div ngClass="btn-block">
+        <button kendoButton (click)="handleClick()">Добавить Пользователя</button>
+    </div>
+    <br>
+    <app-modal-window [isEdit]="isEdit" *ngIf="adding" [editUser]="editUser"  (cancel)="cancelHandler()" [adding]="adding"></app-modal-window>
+    <app-table [isEdit]="isEdit" [adding]="adding" (edit)="editHandler($event)"></app-table>
     
 </div>

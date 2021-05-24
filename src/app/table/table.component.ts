@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { IUserData } from '../interfaces/interfaces';
 import { DataService } from '../services/data.service';
 
@@ -11,11 +11,14 @@ export class TableComponent {
 
   constructor(private dataService: DataService){}
   
-  public adding: boolean
+  @Input() public adding: boolean;
+  @Input() public isEdit: boolean;
+
+  @Output() edit: EventEmitter<any> = new EventEmitter();
+  
   public usersData: Array<IUserData>;
 
   ngOnInit(): void {
-    this.adding = this.dataService.getAdding();
     this.usersData = this.dataService.getDataOfUsers();
   }
 
@@ -26,10 +29,8 @@ export class TableComponent {
     this.usersData.splice(user_index, 1)
   }
 
-  public editHandler({dataItem}: any) {
-    this.dataService.setAdding();
-    this.adding = this.dataService.getAdding(); 
-    console.log(this.dataService.getAdding());
-    console.log(dataItem);
+  public onEdit({dataItem}: any): void {
+    this.edit.emit(dataItem);
   }
+
 }
