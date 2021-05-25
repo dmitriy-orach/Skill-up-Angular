@@ -62,7 +62,8 @@
         </fieldset>
         <div class="btn-block">
             <button class="k-button" (click)="onCancel()">Отмена</button>
-            <button type="button" class="k-button k-primary" [disabled]="!dataUserForm.valid" (click)="submit()">Отправить</button>
+            <button type="button" class="k-button k-primary" [disabled]="!dataUserForm.valid" (click)="addNewUserAndCloce()">Отправить</button>
+            <button *ngIf="!isEdit" type="button" class="k-button k-primary" [disabled]="!dataUserForm.valid" (click)="addNewUser()">Добавить нового пользователя</button>
         </div>
     </form>
 </kendo-window>

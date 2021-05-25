@@ -169,7 +169,6 @@ export class ModalWindowComponent implements OnInit {
       this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'yyyy/MM/dd');
       this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'yyyy/MM/dd');
       this.dataService.editUser(this.editUser.id, this.dataUserForm.value);
-      this.onCancel();
     } else {
       if (this.dataUserForm.invalid) {
         this.userNameControl.markAsTouched();
@@ -186,8 +185,23 @@ export class ModalWindowComponent implements OnInit {
       this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'yyyy/MM/dd');
   
       this.dataService.addUser(this.dataUserForm.value);
-      this.onCancel();
     }
+  }
+
+  public addNewUserAndCloce(): void {
+    this.submit();
+    this.onCancel();
+  }
+
+  public addNewUser(): void {
+    this.submit();
+    this.dataUserForm.reset();
+    this.userNameControl.setValidators([
+      Validators.minLength(5),
+      Validators.maxLength(15),
+      Validators.required,
+      CustomValidator.UnrepeatableNameValidatir(this.dataService.getNames())
+    ]);
   }
 
   public onCancel(): void {
