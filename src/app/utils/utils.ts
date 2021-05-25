@@ -1,5 +1,4 @@
 import { AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
-import { IUserData } from '../interfaces/interfaces';
 
 export class CustomValidator {
 

@@ -48,12 +48,13 @@ export class DataService{
         return this.dataOfUsers;
     }
 
-    addUser(data:any) {
-        this.dataOfUsers.push({...data, id: this.dataOfUsers.length + 1})
+    addUser(data:any): void {
+        this.dataOfUsers.push({...data, id: this.dataOfUsers.length + 1});
     }
 
-    editUser(id:number , data: any) {
+    editUser(id:number , data: any): void {
         const userIndex = this.dataOfUsers.findIndex((user) => user.id === id);
+        data.id = userIndex + 1;
         this.dataOfUsers[userIndex] = {...this.dataOfUsers[userIndex], ...data};
     }
 

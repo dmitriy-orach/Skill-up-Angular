@@ -12,20 +12,19 @@ export class AppComponent {
   public isEdit: boolean = false;
   public editUser: any;
 
-  public handleClick() {
+  public handleClick(): void {
     this.adding = true;
     this.isEdit = false;
   }
 
-  public cancelHandler() {
+  public cancelHandler(): void {
     this.adding = false;
     this.isEdit = false;
   }
 
-  public editHandler(elem: any) {
+  public editHandler(elem: any): void {
     this.isEdit = true;
     this.adding = true;
     this.editUser = elem;
   }
-
 }

@@ -22,15 +22,14 @@ export class TableComponent {
     this.usersData = this.dataService.getDataOfUsers();
   }
 
-  public removeHandler({dataItem}: any) {
+  public removeHandler({dataItem}: any): void {
     const user_index = this.usersData.findIndex((user) => {
       return user.id === dataItem.id;
     })
-    this.usersData.splice(user_index, 1)
+    this.usersData.splice(user_index, 1);
   }
 
   public onEdit({dataItem}: any): void {
     this.edit.emit(dataItem);
   }
-
 }

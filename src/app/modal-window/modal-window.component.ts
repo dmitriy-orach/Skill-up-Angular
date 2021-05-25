@@ -14,9 +14,9 @@ import { DataService } from '../services/data.service';
 export class ModalWindowComponent implements OnInit {
 
   constructor(private dataService: DataService){}
-  @Input() adding: boolean;
-  @Input() isEdit: boolean;
-  @Input() editUser: any;
+  @Input() public adding: boolean;
+  @Input() public isEdit: boolean;
+  @Input() public editUser: any;
 
   @Output() cancel: EventEmitter<any> = new EventEmitter();
   
@@ -46,7 +46,6 @@ export class ModalWindowComponent implements OnInit {
     this.setValidators();
 
     if(this.isEdit) {
-
       this.userNameControl.setValidators([
         Validators.minLength(5),
         Validators.maxLength(15),
@@ -60,9 +59,7 @@ export class ModalWindowComponent implements OnInit {
         'directionOfStudy': this.editUser.directionOfStudy,
         'endDateOfTraining': new Date(this.editUser.endDateOfTraining),
         'startDateOfTraining': new Date(this.editUser.startDateOfTraining),
-        
       });
-      console.log(this.dataUserForm.value)
     }
   }
 
@@ -144,7 +141,7 @@ export class ModalWindowComponent implements OnInit {
   get userNameControl(): AbstractControl {
     return this.dataUserForm.get('name') as AbstractControl;
   }
-
+  
   get userGenderControl(): AbstractControl {
     return this.dataUserForm.get('gender') as AbstractControl;
   }
@@ -168,13 +165,11 @@ export class ModalWindowComponent implements OnInit {
   public submit(): void {
 
     if(this.isEdit) {
-
       this.dataUserForm.value.dateOfBirth = new DatePipe('en-US').transform(this.dataUserForm.value.dateOfBirth, 'yyyy/MM/dd');
       this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'yyyy/MM/dd');
       this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'yyyy/MM/dd');
       this.dataService.editUser(this.editUser.id, this.dataUserForm.value);
       this.onCancel();
-      
     } else {
       if (this.dataUserForm.invalid) {
         this.userNameControl.markAsTouched();
@@ -190,7 +185,6 @@ export class ModalWindowComponent implements OnInit {
       this.dataUserForm.value.startDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.startDateOfTraining, 'yyyy/MM/dd');
       this.dataUserForm.value.endDateOfTraining = new DatePipe('en-US').transform(this.dataUserForm.value.endDateOfTraining, 'yyyy/MM/dd');
   
-      console.log(this.dataUserForm.value)
       this.dataService.addUser(this.dataUserForm.value);
       this.onCancel();
     }
@@ -199,5 +193,4 @@ export class ModalWindowComponent implements OnInit {
   public onCancel(): void {
     this.cancel.emit();
   }
-
 }
