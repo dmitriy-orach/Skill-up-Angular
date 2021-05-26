@@ -46,12 +46,6 @@ export class ModalWindowComponent implements OnInit {
     this.setValidators();
 
     if(this.isEdit) {
-      this.userNameControl.setValidators([
-        Validators.minLength(5),
-        Validators.maxLength(15),
-        Validators.required,
-      ]);
-
       this.dataUserForm.patchValue({
         'name': this.editUser.name,
         'gender': this.editUser.gender,
@@ -60,6 +54,13 @@ export class ModalWindowComponent implements OnInit {
         'endDateOfTraining': new Date(this.editUser.endDateOfTraining),
         'startDateOfTraining': new Date(this.editUser.startDateOfTraining),
       });
+
+      this.userNameControl.setValidators([
+        Validators.minLength(5),
+        Validators.maxLength(15),
+        Validators.required,
+        CustomValidator.UnrepeatableNameValidatir(this.dataService.getNames(), this.isEdit, this.userNameControl.value)
+      ]);
     }
   }
 
@@ -129,7 +130,7 @@ export class ModalWindowComponent implements OnInit {
     const BACKEND_DIRECTION = 'Backend';
 
     this.userDirectionOfStudyControl.valueChanges.subscribe((value: {text: string}) => {
-      if(value.text == FRONTEND_DIRECTION || value.text == BACKEND_DIRECTION) {
+      if(value.text === FRONTEND_DIRECTION || value.text === BACKEND_DIRECTION) {
         this.userEndDateOfTrainingControl.clearValidators();
       } else {
         this.userEndDateOfTrainingControl.setValidators([Validators.required]);

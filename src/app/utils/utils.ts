@@ -14,10 +14,19 @@ export class CustomValidator {
         };
     }
 
-    public static UnrepeatableNameValidatir(names: Array<string>): ValidatorFn {
+    public static UnrepeatableNameValidatir(names: Array<string>, isEdit?: boolean, controlValue?: string | any): ValidatorFn {
         return(control: AbstractControl): ValidationErrors | any => {
             if(control.parent) {
-                return names.includes(control.value) ? {Repeated: true}: null;
+                if(isEdit){
+                    const cloneArrNames = names.map(item => item);
+                    if(cloneArrNames.includes(controlValue)) {
+                        const index = cloneArrNames.indexOf(controlValue);
+                        cloneArrNames[index] = "";
+                    }
+                    return cloneArrNames.includes(control.value) ? {Repeated: true}: null;
+                } else {
+                    return names.includes(control.value) ? {Repeated: true}: null;
+                }
             }
         }
     }
